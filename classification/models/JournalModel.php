@@ -66,7 +66,8 @@ class JournalModel extends BaseModel
 		// get evaluations
 		$sql = 'SELECT e.id, j.name as journal_name, e.journal_id FROM evaluation e
 					INNER JOIN journals j on e.journal_id = j.id
-					WHERE e.year=:year
+					WHERE e.status = "enable"
+					AND e.year=:year
 					AND name LIKE :search
 					AND discipline_id LIKE :discipline
 					LIMIT :limit
@@ -100,7 +101,8 @@ class JournalModel extends BaseModel
 			$sql3 = 'SELECT criteria_name, marks, compulsory FROM evaluation_answer ea
 						INNER JOIN criteria c on c.id = ea.criteria_id
 						INNER JOIN choice ch on ch.id = ea.choice_id
-						WHERE ea.evaluation_id=?
+						WHERE c.status = "enable"
+						AND ea.evaluation_id=?
 						AND ea.criteria_id IN('.implode(',', $criteriaIds).')';
 
 			$stmt3 = $this->db2->prepare($sql3);
@@ -147,6 +149,13 @@ class JournalModel extends BaseModel
 		});
 
 		return $evaluatedJournals;
+	}
+
+	function deleteEvaluation() {
+		$id = $_POST['delete'];
+		// delete old answers and add new
+		$stmt = $this->db2->prepare('UPDATE evaluation SET status="disable" WHERE id=?');
+		$stmt->execute(array($id));
 	}
 
 	// counting total evaluated

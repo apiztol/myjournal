@@ -52,7 +52,8 @@ class FormModel extends BaseModel
 		$sql = 'SELECT c.id, c.criteria_type FROM criteria c
 					INNER JOIN category_criteria ca ON c.id = ca.criteria_id
 					INNER JOIN category cat ON cat.id = ca.category_id
-					WHERE ca.category_id=?';
+					WHERE c.status = "enable"
+					AND ca.category_id=?';
 
 		$stmt = $this->db2->prepare($sql);
 		$stmt->execute(array($categoryId));

@@ -26,7 +26,7 @@ class CriteriaModel extends BaseModel
 	}
 
 	function getCriteria($id) {
-		$stmt3 = $this->db2->prepare("SELECT * FROM criteria WHERE id=?");
+		$stmt3 = $this->db2->prepare('SELECT * FROM criteria WHERE id=? AND status="enable"');
 		$stmt3->execute(array($id));
 		$result = $stmt3->fetchAll();
 
@@ -34,6 +34,13 @@ class CriteriaModel extends BaseModel
 			$row['choices'] = $this->getChoice($row['id']);
 		}
 		return $result;
+	}
+
+	function deleteCriteria() {
+		$id = $_POST['delete'];
+		// delete old answers and add new
+		$stmt = $this->db2->prepare('UPDATE criteria SET status="disable" WHERE id=?');
+		$stmt->execute(array($id));
 	}
 
 	function insertData($criteriaValue = null, $choiceValues = null) {

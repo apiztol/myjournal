@@ -90,4 +90,11 @@ class Criteria extends BaseClass
         $this->render('criteria/form',$data);
     }
 
+	function deleteAction() {
+		$this->criteriaModel->deleteCriteria();
+
+		$_SESSION['success_msg'] = "Criteria has been successfully deleted.";
+		$this->redirect('classification_criterias.php');
+	}
+
 }

@@ -237,4 +237,11 @@ class Journal extends BaseClass
 		// render view
 		$this->render('journal/render_list_excel', $data);
 	}
+
+	function deleteEvaluationAction() {
+		$this->journalModel->deleteEvaluation();
+
+		$_SESSION['success_msg'] = "Evaluation has been successfully deleted.";
+		$this->redirect('classification_evaluated_journals.php');
+	}
 }

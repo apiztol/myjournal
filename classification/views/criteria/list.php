@@ -46,7 +46,10 @@
                       <td>
                         <center>
 							<a href="#" class="edit_criteria_mandatory" id="edit_<?php echo $row['id'] ?>">Edit</a> |
-                        <a href="#">Delete</a>
+                            <a class="btn-delete" href="javascript:;">Delete</a>
+                            <form class="form-delete" action="" method="post">
+                                <input type="hidden" name="delete" value="<?php echo $row['id'] ?>">
+                            </form>
                         </center>
                       </td>
                     </tr>
@@ -72,7 +75,10 @@
                       <td>
                         <center>
 						<a href="#" class="edit_criteria_optional" id="edit_<?php echo $row['id'] ?>">Edit</a> |
-                        <a href="#">Delete</a>
+                        <a class="btn-delete" href="javascript:;">Delete</a>
+                        <form class="form-delete" action="" method="post">
+                            <input type="hidden" name="delete" value="<?php echo $row['id'] ?>">
+                        </form>
                         </center>
                       </td>
                     </tr>
@@ -107,6 +113,12 @@
 		window.location.replace("classification_add_criteria.php?e=true&id="+classificationID+"");
 	});
 
+    $('.btn-delete').click(function() {
+        if (confirm('Are you sure want to delete this record?')) {
+            var form = $(this).siblings('.form-delete')
+            $(form).submit();
+        }
+    })
 
 
 </script>

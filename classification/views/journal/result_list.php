@@ -124,7 +124,10 @@
                                     <center>
                                         <a href="classification_journals_detail.php?level=<?php echo $currentLevel ?>&form=<?php echo $_GET['form'] ?>&evaluation_id=<?php echo $journal['evaluation_id'] ?>">Detail</a> |
                                         <a href="classification_evaluate.php?id=<?php echo $journal['evaluation_id'] ?>&e=1">Edit</a> |
-                                        <a href="#">Delete</a>
+                                        <a class="btn-delete" href="javascript:;">Delete</a>
+                                        <form class="form-delete" action="" method="post">
+                                            <input type="hidden" name="delete" value="<?php echo $journal['evaluation_id'] ?>">
+                                        </form>
                                     </center>
                                 </td>
                             </tr>
@@ -165,6 +168,12 @@ $('#btnExport').click(function() {
 })
 
 $(document).ready(function() {
+    $('.btn-delete').click(function() {
+        if (confirm('Are you sure want to delete this record?')) {
+            var form = $(this).siblings('.form-delete')
+            $(form).submit();
+        }
+    })
 
     $('.qselect').change(function() {
         $('#form-search').submit()
@@ -172,7 +181,6 @@ $(document).ready(function() {
 
     var stringData = $('#jsonval').val()
     var obj = $.parseJSON(stringData)
-    console.log(stringData)
     var data = []
     $.each(obj, function(i,row) {
         var o = {
