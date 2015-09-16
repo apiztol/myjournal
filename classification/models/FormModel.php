@@ -6,17 +6,28 @@ class FormModel extends BaseModel
 	function getForms($id = null) {
 
 		if ($id != null) {
-			//return $this->db2->category->where('id', $id)->fetch();
-			$stmt3 = $this->db2->prepare("SELECT e.*,COUNT('category_id') AS counter FROM category_criteria f JOIN category e WHERE e.id = f.category_id AND e.id=? GROUP BY e.id");
+			$sql3 = "SELECT e.*
+						FROM category_criteria f
+						INNER JOIN category e ON e.id = f.category_id
+						WHERE e.id=?";
+			$stmt3 = $this->db2->prepare($sql3);
 			$stmt3->execute(array($id));
-			return $result = $stmt3->fetchAll();
+
+			return $result = $stmt3->fetch();
 		}
-		//return $this->db2->category->where('status', 'enable');
-		$stmt3 = $this->db2->prepare("SELECT e.*,COUNT('category_id') AS counter FROM category_criteria f JOIN category e WHERE e.id = f.category_id AND e.status=? GROUP BY e.id");
+
+		$sql3 = "SELECT e.*, COUNT('category_id') AS counter
+					FROM category_criteria f
+					INNER JOIN category e ON e.id = f.category_id
+					INNER JOIN criteria c ON c.id = f.criteria_id
+					WHERE e.status=?
+					AND c.status = 'enable'
+					GROUP BY e.id";
+		$stmt3 = $this->db2->prepare($sql3);
 		$stmt3->execute(array('enable'));
 		return $result = $stmt3->fetchAll();
 	}
-	
+
 	function getCategoryCriteria($id) {
 		$stmt = $this->db2->prepare('SELECT * FROM category_criteria WHERE category_id=?');
 		$stmt->execute(array($id));
@@ -24,8 +35,8 @@ class FormModel extends BaseModel
 
 		return $rows;
 	}
-	
-	
+
+
 	function deleteData($category_id = null) {
 
 		// $this->printr($criteriaValues);exit;
@@ -34,7 +45,7 @@ class FormModel extends BaseModel
 			$stmt = $this->db2->prepare("DELETE FROM category_criteria WHERE category_id=?");
 			$stmt->execute(array($category_id));
 			$lastInsertID = $this->db2->lastInsertId();
-			
+
 			if ($lastInsertID != null){
 				return true;
 			}

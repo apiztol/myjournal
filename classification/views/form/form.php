@@ -1,18 +1,9 @@
-<?php 
-if($_GET['id'] != ""){
-foreach ($forms as $row):
-endforeach; 
-}
-?>
-
-
-
 <table width="100%" border="0" cellspacing="0" cellpadding="0">
   <tbody>
       <tr>
         <td height="30">
           <a href="#">Home</a> &gt; Create Form
-        </td>                                             
+        </td>
       </tr>
       <tr>
         <td height="30" background="images/tajukpanjang750.png">
@@ -28,8 +19,8 @@ endforeach;
                 <td>
                   <b>Form Name</b>
                 </td>
-                <td><input name="category_name" type="text" size="50" value="<?php echo $row['name']; ?>"></td>
-				<input name="category_id" type="hidden" value="<?php echo $row['id']; ?>">
+                <td><input name="category_name" type="text" size="50" value="<?php echo $form['name']; ?>"></td>
+				<input name="category_id" type="hidden" value="<?php echo $form['id']; ?>">
 
               </tr>
               <tr>
@@ -42,38 +33,38 @@ endforeach;
                   <b>Wajib</b>
                   <table width="100%" class="table-list" style="padding-top:10px">
                     <?php foreach ($compulsory as $row): ?>
-                    <?php $selected = ""; 
-					
+                    <?php $selected = "";
+
 					if($_GET['id'] != ""){
 						?>
-						
+
 						<?php foreach ($categoryCriteria as $catData): ?>
 						<?php if($catData['criteria_id'] == $row['id']){
 							$selected = "checked";
 						} ?>
 					<?php endforeach; } ?>
-						
+
 						<tr>
 						  <td width="20px"><input type="checkbox" name="criteriaIds[]" value="<?php echo $row['id'] ?>" <?php echo $selected ?>></td>
 						  <td><?php echo $row['criteria_name'] ?></td>
 						</tr>
-						
+
                     <?php endforeach; ?>
-					
+
                   </table>
                   <br>
                   <b>Optional</b>
                   <table width="100%" class="table-list" style="padding-top:10px">
                     <?php foreach ($optional as $row): ?>
-					 <?php $selectedO = ""; 
+					 <?php $selectedO = "";
 					 if($_GET['id'] != ""){ ?>
-						
+
 						<?php foreach ($categoryCriteria as $catData): ?>
 						<?php if($catData['criteria_id'] == $row['id']){
 							$selectedO = "checked";
 						} ?>
 					 <?php endforeach; } ?>
-						
+
                     <tr>
                       <td width="20px"><input type="checkbox" name="criteriaIds[]" value="<?php echo $row['id'] ?>"<?php echo $selectedO ?>></td>
                       <td><?php echo $row['criteria_name'] ?></td>
@@ -86,7 +77,7 @@ endforeach;
                   </div>
                 </td>
               </tr>
-              
+
             </table>
             </form>
           </div>
