@@ -31,7 +31,7 @@
                       <td><center><?php echo $row['counter'] ?></center></td>
 					 <td>
                         <center>
-                        <a href="#">Edit</a> | 
+                        <a href="classification_edit_form.php?id=<?php echo $row['id'] ?>">Edit</a> | 
                         <a href="#">Delete</a>
                         </center>
                       </td>

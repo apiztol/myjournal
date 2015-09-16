@@ -16,6 +16,33 @@ class FormModel extends BaseModel
 		$stmt3->execute(array('enable'));
 		return $result = $stmt3->fetchAll();
 	}
+	
+	function getCategoryCriteria($id) {
+		$stmt = $this->db2->prepare('SELECT * FROM category_criteria WHERE category_id=?');
+		$stmt->execute(array($id));
+		$rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+		return $rows;
+	}
+	
+	
+	function deleteData($category_id = null) {
+
+		// $this->printr($criteriaValues);exit;
+		if ($category_id != null) {
+			//$category = $this->db2->category->insert($categoryValue);
+			$stmt = $this->db2->prepare("DELETE FROM category_criteria WHERE category_id=?");
+			$stmt->execute(array($category_id));
+			$lastInsertID = $this->db2->lastInsertId();
+			
+			if ($lastInsertID != null){
+				return true;
+			}
+			else{
+				return false;
+			}
+		}
+	}
 
 	function insertData($categoryValue = null, $criteriaValues = null) {
 

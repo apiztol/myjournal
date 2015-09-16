@@ -17,7 +17,7 @@
                     <form id="form-search" method="get" action="">
                     <div style="float:left;width:20%">
                         Year
-                        <select  class="qselect" name="year">
+                        <select  class="qselect" id="year" name="year">
                             <option value="<?php echo (date('Y') - 1) ?>" <?php echo $_GET['year'] == (date('Y') - 1) ? 'selected' : '' ?> ><?php echo (date('Y') - 1) ?></option>
                             <option value="<?php echo date('Y') ?>"  <?php echo $_GET['year'] == date('Y') ? 'selected' : '' ?> ><?php echo date('Y') ?></option>
                             <option value="<?php echo (date('Y') + 1) ?>"  <?php echo $_GET['year'] == (date('Y') + 1) ? 'selected' : '' ?> ><?php echo (date('Y') + 1) ?></option>
@@ -25,7 +25,7 @@
                     </div>
                     <div style="float:left;width:50%;text-align:center">
                         Dicipline
-                        <select class="qselect" name="discipline">
+                        <select class="qselect" id="discipline" name="discipline">
                             <option value="">All</option>
                             <?php foreach($disciplines as $row): ?>
                                 <option value="<?php echo $row['id'] ?>" <?php echo $_GET['discipline'] == $row['id'] ? 'selected' : '' ?>><?php echo $row['dis_desc'] ?></option>
@@ -34,7 +34,7 @@
                     </div>
                     <div style="float:left;width:30%; text-align:right">
                         Form Category
-                        <select class="qselect" name="form">
+                        <select class="qselect" id="form" name="form">
                             <?php foreach($forms as $row): ?>
                                 <option value="<?php echo $row['id'] ?>" <?php echo $_GET['form'] == $row['id'] ? 'selected' : '' ?>><?php echo $row['name'] ?></option>
                             <?php endforeach; ?>
@@ -140,8 +140,26 @@
         </tr>
     </tbody>
 </table>
-<form id="downloadPDF" action="PDF/journal_list_pdf.php"></form>
-<form id="downloadExcel" action="Excel/journal_list_excel.php"></form>
+<form id="downloadPDF" action="PDF/journal_list_pdf.php" method="get">
+<input type="hidden" id="s" name="s"/>
+<input type="hidden" id="y" name="y"/>
+<input type="hidden" id="d" name="d"/>
+<input type="hidden" id="f" name="f"/>
+<input type="hidden" id="did" name="did"/>
+<input type="hidden" id="pfid" name="formID"/>
+
+</form>
+
+<form id="downloadExcel" action="Excel/journal_list_excel.php">
+<input type="hidden" id="es" name="s"/>
+<input type="hidden" id="ey" name="y"/>
+<input type="hidden" id="ed" name="d"/>
+<input type="hidden" id="ef" name="f"/>
+<input type="hidden" id="edid" name="did"/>
+<input type="hidden" id="efid" name="formID"/>
+
+</form>
+
 <?php
 $pieData = [];
 for ($i = 0; $i < count($levels); $i++) {
@@ -151,20 +169,41 @@ $pieData = json_encode($pieData);
 ?>
 <input type="hidden" id="jsonval" value='<?php echo $pieData ?>'>
 <script>
+
+$('#y').val($('year').val());
+$('#d').val($('discipline').val());
+$('#f').val($('form').val());
+
 $('#btnExport').click(function() {
 
+	
+		
     var exportOption = $('#exportOption').find(":selected").text()
     if(exportOption == "PDF"){
-        form = $('#downloadPDF');
-        form.submit();
+        form = $('#downloadPDF');  
+		$('#s').val($("input[name=search]").val());
+		$('#y').val($("#year option:selected").text());
+		$('#f').val($("#form option:selected").text());
+		$('#pfid').val($("#form option:selected").val());
+		$('#d').val($("#discipline option:selected").text());
+		$('#did').val($("#discipline option:selected").val());
+		form.submit();
     }
     else if(exportOption == "Excel"){
         form = $('#downloadExcel');
-        form.submit();
+		$('#es').val($("input[name=search]").val());
+		$('#ey').val($("#year option:selected").text());
+		$('#ef').val($("#form option:selected").text());
+		$('#efid').val($("#form option:selected").val());
+		$('#ed').val($("#discipline option:selected").text());
+		$('#edid').val($("#discipline option:selected").val());
+		form.submit();
     }
     else{
         //Do nothing
     }
+	
+	
 })
 
 $(document).ready(function() {

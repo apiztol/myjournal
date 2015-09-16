@@ -33,7 +33,7 @@ $DB_PASSWORD="ejurnal123";
 #$DB_PASSWORD="thana123"; 
 
 $DB_HOST="localhost";
-$DB_NAME="myjournal_3";
+$DB_NAME="myjournal_4";
 $DB_USER="root";
 $DB_PASSWORD=""; 
 

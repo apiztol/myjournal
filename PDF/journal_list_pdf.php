@@ -12,7 +12,7 @@
  */
 
     // get the HTML
-	
+
     ob_start();
     include(dirname(__FILE__).'/journal_list_load.php');
     $content = ob_get_clean();

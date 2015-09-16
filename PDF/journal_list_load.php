@@ -27,7 +27,7 @@ table.morpion td.j2 { color: #A00; }
   
 	<?php 
 		$journal = new Journal();
-		$journal->toPDF();
+		$journal->convertListJournal("PDF");
 	?>
 	
 </page>

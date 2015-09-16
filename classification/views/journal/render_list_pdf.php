@@ -20,18 +20,25 @@
 		
 		-->
 		</style>
-		
-		
+
 		<table cellspacing="3px" style="margin:20px;max-width: 100%; solid;position: relative;">
              <tr>
-			<td class="tbold" width="100px;">Year</td><td><?php echo "year"; ?></td>
+			<td class="tbold" width="100px;">Year</td><td><?php echo $_GET['y']; ?></td>
              </tr>
             <tr>
-			<td class="tbold">Dicipline</td><td><?php echo "dicipline"; ?></td>
+			<td class="tbold">Dicipline</td><td><?php echo $_GET['d']; ?></td>
               </tr>
 			  <tr>
-				<td class="tbold">Form Category</td><td><?php echo "form category"; ?></td>
+				<td class="tbold">Form Category</td><td><?php echo $_GET['f']; ?></td>
               </tr>
+			  <tr>
+				<td class="tbold">Full Mark</td><td><?php echo $fullMarks; ?></td>
+              </tr>
+			  <?php if($_GET['s'] != "") { ?>
+			  <tr>
+				<td class="tbold">Search</td><td><?php echo $_GET['s']; ?></td>
+              </tr>
+			  <?php } ?>
 		</table>
 		
 		
@@ -50,23 +57,56 @@
                 <th>%</th>
               </tr>
               <?php $i = $offset ?>
-              <?php $section = 1 ?>
-              <?php foreach ($journals as $journal): ?>
+              <?php 
+			  
+						$section = 1;
+						// variables to keep number of journal have for each level
+                        $counts = [0, 0, 0, 0, 0];
 
-              <?php if ($i % 10 == 0) : ?>
+                        // to keep the threshold value of each level
+                        $classes = [90, 70, 30, 20, 10];
+
+                        // labels for each levels
+                        $levels = ['A1', 'A2', 'B1', 'B2', 'B5'];
+
+                        $curentLevel = '';
+			  
+			  ?>
+              <?php foreach ($journals as $journal): ?>
+			  <?php $percentage = round(($journal['totalMarks'] / $fullMarks) * 100, 2) ?>
+			  <?php
+                            for ($k = 0; $k < count($classes); $k++) {
+                                if ($percentage >= $classes[$k]) {
+                                    $counts[$k]++;
+                                    if ($currentLevel != $levels[$k]) {
+                                        echo '
+                                        <tr class="section" bgcolor="#FFDB4D">
+                                            <td></td>
+                                            <td colspan="6">Tahap ' . $levels[$k] . '</td>
+                                        </tr>
+                                        ';
+
+                                        $currentLevel = $levels[$k];
+                                    }
+                                    break;
+                                }
+                            }
+
+                            ?>
+              <!--<?php if ($i % 10 == 0) : ?>
               <tr bgcolor="#FFDB4D">
                   <td></td>
                   <td colspan="6">Tahap A<?php echo $section++ ?></td>
               </tr>
-              <?php endif ?>
+              <?php endif ?>-->
               <tr bgcolor="#E6E6E6">
                 <td><?php echo ++$i ?></td>
                 <td style="width: 65%; text-align: left;"><?php echo $journal['name'] ?></td>
-                <td>10</td>
-                <td>14</td>
-                <td>23</td>
-                <td>90_</td>
-                
+                <td><?php echo $journal['compulsory'] ?></td>
+                <td><?php echo $journal['optional'] ?></td>
+                <td><?php echo $journal['totalMarks'] ?></td>
+                <td><?php echo $percentage ?></td>
+                     
               </tr>
               <?php endforeach; ?>
             </table>

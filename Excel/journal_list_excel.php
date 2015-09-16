@@ -2,7 +2,7 @@
 include '../classification/classes/Journal.php'; 
 
 $journal = new Journal();
-$journal->toExcel();
+$journal->convertListJournal("EXCEL");
 
 
 ?>

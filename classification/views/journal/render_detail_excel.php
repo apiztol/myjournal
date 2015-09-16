@@ -33,37 +33,47 @@ $objPHPExcel->getActiveSheet()->getStyle("B2:B2")->getFont()->setBold(true);
 
 $objPHPExcel->getActiveSheet()->SetCellValue('B4', 'Title:');
 $objPHPExcel->getActiveSheet()->SetCellValue('B5', 'Dicipline:');
-$objPHPExcel->getActiveSheet()->SetCellValue('B6', 'Author:');
+$objPHPExcel->getActiveSheet()->SetCellValue('B6', 'Publisher:');
 $objPHPExcel->getActiveSheet()->SetCellValue('B7', 'Year Evaluate:');
 $objPHPExcel->getActiveSheet()->SetCellValue('B8', 'Form:');
 $objPHPExcel->getActiveSheet()->SetCellValue('B9', 'Score:');
 $objPHPExcel->getActiveSheet()->SetCellValue('B10', 'Level:');
 
-$objPHPExcel->getActiveSheet()->SetCellValue('C4', 'Title');
-$objPHPExcel->getActiveSheet()->SetCellValue('C5', 'Dicipline');
-$objPHPExcel->getActiveSheet()->SetCellValue('C6', 'Author');
-$objPHPExcel->getActiveSheet()->SetCellValue('C7', 'Year Evaluate');
-$objPHPExcel->getActiveSheet()->SetCellValue('C8', 'Form');
-$objPHPExcel->getActiveSheet()->SetCellValue('C9', 'Score');
-$objPHPExcel->getActiveSheet()->SetCellValue('C10', 'Level');
+$objPHPExcel->getActiveSheet()->SetCellValue('C4', $journal['journal_name']);
+$objPHPExcel->getActiveSheet()->SetCellValue('C5', $disciplineTitle);
+$objPHPExcel->getActiveSheet()->SetCellValue('C6', $journal['publisher']);
+$objPHPExcel->getActiveSheet()->SetCellValue('C7', $journal['year']);
+$objPHPExcel->getActiveSheet()->SetCellValue('C8', $_GET['f']);
+$objPHPExcel->getActiveSheet()->SetCellValue('C9', $journal['totalMarks'] . ' / ' . $fullMarks . ' (' . round(($journal['totalMarks'] / $fullMarks) * 100, 2) . '%)');
+$objPHPExcel->getActiveSheet()->SetCellValue('C10', '-');
 
 
+$objPHPExcel->getActiveSheet()->SetCellValue('B12', '');
+$objPHPExcel->getActiveSheet()->SetCellValue('C12', 'Criteria');
+$objPHPExcel->getActiveSheet()->SetCellValue('D12', 'Choice');
+$objPHPExcel->getActiveSheet()->SetCellValue('E12', 'Score');
+$objPHPExcel->getActiveSheet()->SetCellValue('F12', 'Remarks');
 
-$objPHPExcel->getActiveSheet()->SetCellValue('B12', 'Criteria');
-$objPHPExcel->getActiveSheet()->SetCellValue('C12', 'Score');
-$objPHPExcel->getActiveSheet()->SetCellValue('D12', 'Remarks');
 
+$x = 0 ;
+$scores = [];
 $i++;
-for($x = 1 ; $x < 10 ; $x++){
+foreach ($journal['resultList'] as $row):
 	$i++;
+	$x++;
+	$objPHPExcel->getActiveSheet()->SetCellValue('B'.$i, $x);
+	$objPHPExcel->getActiveSheet()->SetCellValue('C'.$i, $row['criteria_name']);
+	$objPHPExcel->getActiveSheet()->SetCellValue('D'.$i, $row['choice_name']);
+	$objPHPExcel->getActiveSheet()->SetCellValue('E'.$i, $row['marks']);
+	$objPHPExcel->getActiveSheet()->SetCellValue('F'.$i, $row['remarks']);
 
-	$objPHPExcel->getActiveSheet()->SetCellValue('B'.$i, "CRITERIA");
-	$objPHPExcel->getActiveSheet()->SetCellValue('C'.$i, "SCORE");
-	$objPHPExcel->getActiveSheet()->SetCellValue('D'.$i, "REMARKS");
-}
+	array_push($scores, [ 'value' => ($row['marks'] / $fullMarks * 100)]);
+	
+endforeach;
 
+$scores = array_reverse($scores); // reverse array to show criteria 1 start from top when in graph
 
-$objPHPExcel->getActiveSheet()->getStyle("B12:D12")->getFont()->setBold(true);
+$objPHPExcel->getActiveSheet()->getStyle("B12:F12")->getFont()->setBold(true);
 $objPHPExcel->getActiveSheet()->getStyle("B4:B10")->getFont()->setBold(true);
 
 
@@ -82,7 +92,7 @@ $objPHPExcel->getActiveSheet()->getColumnDimension($columnID)
          ->setAutoSize(true);
 }
 
-$objPHPExcel->getActiveSheet()->getStyle("B$O:D".$i)->applyFromArray($styleArray);
+$objPHPExcel->getActiveSheet()->getStyle("B$O:F".$i)->applyFromArray($styleArray);
 unset($styleArray);
 
 $objWriter = new PHPExcel_Writer_Excel5($objPHPExcel);
