@@ -17,16 +17,14 @@ class CriteriaModel extends BaseModel
 		return $rows;
 	}
 
-	function getChoice() {
-		$stmt = $this->db2->prepare('SELECT * FROM choice WHERE status="enable"');
+	function getChoice($criteriaId) {
+		$stmt = $this->db2->prepare('SELECT * FROM choice WHERE criteria_id=? AND status="enable"');
 		$stmt->execute(array($criteriaId));
 		$rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 		return $rows;
 	}
 
-	
-	
 	function getCriteria($id) {
 		$stmt3 = $this->db2->prepare('SELECT * FROM criteria WHERE id=? AND status="enable"');
 		$stmt3->execute(array($id));
