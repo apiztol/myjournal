@@ -122,7 +122,7 @@
 
 				  <div style="padding-top:20px">
 					<input type="hidden" name="criteria_id" value="<?php echo $row['id'] ?>">
-                    <input type="submit" name="submitButton" class="statusBtn" value="Save">&nbsp;&nbsp;
+                    <input class="btn-submit" type="submit" name="submitButton" class="statusBtn" value="Save">&nbsp;&nbsp;
                     <input type="reset" class="statusBtn" value="Reset">
                   </div>
                 </td>

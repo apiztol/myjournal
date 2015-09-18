@@ -36,7 +36,7 @@ function checkAnswer($list, $criteria_id, $choice_id) {
                                     <b>Total</b>&nbsp;&nbsp;
                                     <input class="input-result" type="text" size="4" disabled>
                                     <div style="padding-top:10px">
-                                        <input type="submit" class="statusBtn" name="submitButton" value="Save">&nbsp;&nbsp;
+                                        <input type="submit" class="btn-submit" name="submitButton" value="Save">&nbsp;&nbsp;
                                         <input type="reset" class="statusBtn" value="Reset">
                                     </div>
                                 </td>
@@ -122,7 +122,7 @@ function checkAnswer($list, $criteria_id, $choice_id) {
                                     <b>Total</b>&nbsp;&nbsp;
                                     <input class="input-result" type="text" size="4" disabled>
                                     <div style="padding-top:10px">
-                                        <input type="submit" class="statusBtn" name="submitButton" value="Save">&nbsp;&nbsp;
+                                        <input type="submit" class="statusBtn btn-submit" name="submitButton" value="Save">&nbsp;&nbsp;
                                         <input type="reset" class="statusBtn" value="Reset">
                                     </div>
                                 </td>

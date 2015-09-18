@@ -49,7 +49,7 @@
                 <div style="width:100%;margin-bottom:90px">
                     <div style="float:left;width:50%;">
                         <input type="text" name="search" placeholder=" Search Journal" size="40" value="<?php echo $_GET['search'] ?>">
-                        <input type="submit" value="Search">
+                        <input type="submit" class="btn-submit" value="Search">
                     </div>
                     </form>
                     <div style="float:left;width:50%;text-align:right">
@@ -59,7 +59,7 @@
                             <option value="excel">Excel</option>
                         </select>
 
-                        <input type="button" id="btnExport" value="Export"/>
+                        <input type="button" class="btn-submit" id="btnExport" value="Export"/>
 
                     </div>
 
@@ -176,11 +176,11 @@ $('#f').val($('form').val());
 
 $('#btnExport').click(function() {
 
-	
-		
+
+
     var exportOption = $('#exportOption').find(":selected").text()
     if(exportOption == "PDF"){
-        form = $('#downloadPDF');  
+        form = $('#downloadPDF');
 		$('#s').val($("input[name=search]").val());
 		$('#y').val($("#year option:selected").text());
 		$('#f').val($("#form option:selected").text());
@@ -202,8 +202,8 @@ $('#btnExport').click(function() {
     else{
         //Do nothing
     }
-	
-	
+
+
 })
 
 $(document).ready(function() {

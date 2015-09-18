@@ -7,7 +7,7 @@ require_once dirname(__FILE__).'/../models/FormModel.php';
 class Journal extends BaseClass
 {
 	public $journalModel;
-	public $limit = 200;
+	public $limit = 100;
 
 	function __construct() {
 		$this->journalModel = new JournalModel();

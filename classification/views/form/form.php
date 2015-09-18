@@ -72,7 +72,7 @@
                     <?php endforeach; ?>
                   </table>
                   <div style="padding-top:10px">
-                    <input type="submit" class="statusBtn" value="Save" name="submitButton">&nbsp;&nbsp;
+                    <input type="submit" class="statusBtn btn-submit" value="Save" name="submitButton">&nbsp;&nbsp;
                     <input type="reset" class="statusBtn" value="Reset">
                   </div>
                 </td>

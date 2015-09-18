@@ -39,6 +39,7 @@ include("include/SqlPaginator.php");
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>e-publication universiti malaya</title>
 <script type="text/javascript" language="javascript" src="js/jquery-1.6.2.min.js"></script>
+<script type="text/javascript" language="javascript" src="js/jquery.collapsible.min.js"></script>
 <script type="text/javascript" language="javascript" src="js/jquery.colorbox-min.js"></script>
 <script type="text/javascript" language="javascript" src="js/author_group_picker.js"></script>
 <script type="text/javascript" language="javascript" src="js/criteria-add-dynamic.js"></script>

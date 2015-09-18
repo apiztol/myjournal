@@ -28,6 +28,18 @@
 						<td class="tbold">Year Evaluate</td><td><?php echo $journal['year']; ?></td>
 					</tr>
 					<tr>
+						<td class="tbold">Evaluation Date</td><td><?php echo $journal['created_at'] != '' ? $journal['created_at'] : '-'; ?></td>
+					</tr>
+					<tr>
+						<td class="tbold">Evaluated by</td><td><?php echo $journal['created_name'] != '' ? $journal['created_at'] : '-'; ?></td>
+					</tr>
+					<tr>
+						<td class="tbold">Updated Date</td><td><?php echo $journal['updated_at'] != '' ? $journal['created_at'] : '-'; ?></td>
+					</tr>
+					<tr>
+						<td class="tbold">Updated by</td><td><?php echo $journal['updated_name'] != '' ? $journal['created_at'] : '-'; ?></td>
+					</tr>
+					<tr>
 						<td class="tbold">Form</td>
 						<td>
 							<form id="qform" action="" method="get">
@@ -52,7 +64,7 @@
 						<option value="pdf">PDF</option>
 						<option value="excel">Excel</option>
 					</select>
-					<input type="button" id="btnExport" value="Export"/>
+					<input type="button" class="btn-submit" id="btnExport" value="Export"/>
 
 				</div>
 

@@ -75,15 +75,18 @@ $short_name = "site-wide";
               </tr>
               <tr>
                 <td class="bg">
-                  &#8226; <a style="text-decoration:none; " href="#">Classification</a>
-                  <ul>
-                    <li><a href="<?php echo $APP_URL; ?>/classification_journals.php">List of Journals</a></li>
-                    <li><a href="<?php echo $APP_URL; ?>/classification_evaluated_journals.php">Journals with Classification</a></li>
-                    <li><a href="<?php echo $APP_URL; ?>/classification_criterias.php">List of Criteria</a></li>
-                    <li><a href="<?php echo $APP_URL; ?>/classification_add_criteria.php">Add Criteria</a></li>
-                    <li><a href="<?php echo $APP_URL; ?>/classification_categories.php">List of Forms</a></li>
-                    <li><a href="<?php echo $APP_URL; ?>/classification_create_form.php">Add Form</a></li>
-                  </ul>
+                    <div id="first">
+                        &#8226; <a style="text-decoration:none;" href="#">Classification</a>
+                        <ul style="margin-left:-10px;margin-top:5px;list-style-type:circle;display:none">
+                          <li><a href="<?php echo $APP_URL; ?>/classification_journals.php">Evaluate Journal</a></li>
+                          <li><a href="<?php echo $APP_URL; ?>/classification_evaluated_journals.php">Journals with Classification</a></li>
+                          <li><a href="<?php echo $APP_URL; ?>/classification_criterias.php">List of Criteria</a></li>
+                          <li><a href="<?php echo $APP_URL; ?>/classification_add_criteria.php">Add Criteria</a></li>
+                          <li><a href="<?php echo $APP_URL; ?>/classification_categories.php">List of Forms</a></li>
+                          <li><a href="<?php echo $APP_URL; ?>/classification_create_form.php">Add Form</a></li>
+                        </ul>
+                      </div>
+                    </div>
                 </td>
               </tr>
             </table>
@@ -337,3 +340,6 @@ $short_name = "part-timer";
   </tr>
 <?php endif ?>
 </table>
+<script>
+$('#first').collapsible()
+</script>

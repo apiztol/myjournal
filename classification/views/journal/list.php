@@ -17,7 +17,7 @@
             <div style="float:left;width:50%;">
               <form method="get" action="">
                 <input type="text" name="search" placeholder=" Search Journal" size="40" value="<?php echo $_GET['search'] ?>">
-                <input type="submit" value="Search">
+                <input type="submit" class="btn-submit" value="Search">
               </form>
             </div>
           </div>

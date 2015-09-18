@@ -175,8 +175,11 @@ class JournalModel extends BaseModel
 	}
 
 	function getEvaluationDetail($evaluation_id, $form) {
-		$sql = 'SELECT j.name as journal_name, e.journal_id, j.discipline_id, j.publisher, e.year FROM evaluation e
+		$sql = 'SELECT j.name as journal_name, e.journal_id, e.created_at, e.updated_at, u.name as created_name, us.name as updated_name, j.discipline_id, j.publisher, e.year
+					FROM evaluation e
 					INNER JOIN journals j on e.journal_id = j.id
+					LEFT JOIN users u on e.created_by = u.id
+					LEFT JOIN users us on e.updated_by = us.id
 					WHERE e.id = ?';
 
 		$stmt = $this->db2->prepare($sql);
@@ -299,8 +302,8 @@ class JournalModel extends BaseModel
 	function insertEvaluate($journalId, $year, $criteriaChoices, $remarks) {
 
 		// insert evaluation and return inserted id
-		$stmt = $this->db2->prepare("INSERT INTO evaluation (journal_id,year) VALUES (?,?)");
-		$stmt->execute(array($journalId, $year));
+		$stmt = $this->db2->prepare("INSERT INTO evaluation (journal_id,year,created_by, created_at) VALUES (?,?,?,now())");
+		$stmt->execute(array($journalId, $year, $_SESSION['user_id']));
 		$evaluationId = $this->db2->lastInsertId();
 
 		// insert answer choosen
@@ -314,8 +317,8 @@ class JournalModel extends BaseModel
 
 	function updateEvaluate($evaluation_id, $year, $criteriaChoices, $remarks) {
 		// update evaluation based on evaluation id
-		$stmt = $this->db2->prepare("UPDATE evaluation SET year=? WHERE id=?");
-		$stmt->execute(array($year, $evaluation_id));
+		$stmt = $this->db2->prepare("UPDATE evaluation SET year=?,updated_by=?,updated_at=now() WHERE id=?");
+		$stmt->execute(array($year, $_SESSION['user_id'], $evaluation_id));
 
 		// delete old answers and add new
 		$stmt3 = $this->db2->prepare("DELETE FROM evaluation_answer WHERE evaluation_id=?");
