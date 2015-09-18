@@ -341,5 +341,12 @@ $short_name = "part-timer";
 <?php endif ?>
 </table>
 <script>
-$('#first').collapsible()
+
+
+if (/class/.test(window.location.href)) {
+    $('#first').collapsible('default-open')
+}
+else {
+    $('#first').collapsible()
+}
 </script>
