@@ -95,4 +95,11 @@ class Form extends BaseClass
 		// render view
 		$this->render('form/detail', $data);
 	}
+
+	function deleteAction() {
+		$this->formModel->deleteForm();
+
+		$_SESSION['success_msg'] = "Form has been successfully deleted.";
+		$this->redirect('classification_categories.php');
+	}
 }

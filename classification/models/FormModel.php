@@ -36,6 +36,12 @@ class FormModel extends BaseModel
 		return $rows;
 	}
 
+	function deleteForm() {
+		$id = $_POST['delete'];
+		// delete old answers and add new
+		$stmt = $this->db2->prepare('UPDATE category SET status="disable" WHERE id=?');
+		$stmt->execute(array($id));
+	}
 
 	function deleteData($category_id = null) {
 

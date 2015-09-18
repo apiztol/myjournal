@@ -195,7 +195,7 @@ class JournalModel extends BaseModel
 		}
 
 		// get all criteria with answers
-		$sql3 = 'SELECT criteria_name, choice_name, marks, compulsory, remarks FROM evaluation_answer ea
+		$sql3 = 'SELECT ea.criteria_id, criteria_name, choice_name, marks, compulsory, remarks FROM evaluation_answer ea
 					INNER JOIN criteria c on c.id = ea.criteria_id
 					INNER JOIN choice ch on ch.id = ea.choice_id
 					WHERE ea.evaluation_id=?
@@ -207,12 +207,31 @@ class JournalModel extends BaseModel
 
 		$totalMarks = 0;
 		// get marks of each answers and sum up its mark
-		foreach ($resultsList as $answer) {
+		$currentCriteria = '';
+		$currentAnswer = '';
+		$currentMarks = 0;
+		$i = 0;
+		foreach ($resultsList as &$answer) {
 			// get marks of answer
 			$marks = $answer['marks'];
 
 			// add to total
 			$totalMarks = $totalMarks + $marks;
+			$answer['totalCriteriaMarks'] = $this->getTotalCriteriaMarks($answer['criteria_id']);
+
+			// if same name as previous criteria, sum the previous marks and remove provious record
+			if ($answer['criteria_name'] == $currentCriteria) {
+				$answer['marks'] += $currentMarks;
+				$answer['choice_name'] = $answer['choice_name'] . ',<br>' . $currentAnswer;
+				unset($resultsList[($i - 1)]);
+			}
+
+			// later to check if same criteria, need to sum marks and show in one row
+			$currentCriteria = $answer['criteria_name'];
+			$currentMarks = $answer['marks'];
+			$currentAnswer = $answer['choice_name'];
+
+			$i++;
 		}
 
 		// create array with all values needed
@@ -220,6 +239,35 @@ class JournalModel extends BaseModel
 		$evaluation['resultList'] = $resultsList;
 
 		return $evaluation;
+	}
+
+	function getTotalCriteriaMarks($criteriaId) {
+		$sql = 'SELECT * FROM choice
+				INNER JOIN criteria ON criteria.id = choice.criteria_id
+				WHERE criteria_id=? AND choice.status="enable"';
+
+		$stmt = $this->db2->prepare($sql);
+		$stmt->execute(array($criteriaId));
+		$choices = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+		if ($choices[0]['criteria_type'] == 'checkbox') {
+			$sum = 0;
+			foreach ($choices as $choice) {
+				$sum += $choice['marks'];
+			}
+
+			return $sum;
+		}
+		else if ($choices[0]['criteria_type'] == 'radio') {
+			$max = 0;
+			foreach ($choices as $choice) {
+				if ($max < $choice['marks']) {
+					$max = $choice['marks'];
+				}
+			}
+
+			return $max;
+		}
 	}
 
 	function getEvaluation($evaluation_id) {

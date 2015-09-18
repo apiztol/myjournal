@@ -7,6 +7,10 @@ $form = new Form();
 if (isset($_GET['id'])) {
 	$form->showAction($_GET['id']);
 }
+else if ($_POST['delete']) {
+    // perform delete action
+    $form->deleteAction();
+}
 else {
 	$form->indexAction();
 }

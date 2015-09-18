@@ -44,10 +44,6 @@
 					<tr>
 						<td class="tbold">Score</td><td><?php echo $journal['totalMarks'] . ' / ' . $fullMarks . ' (' . round(($journal['totalMarks'] / $fullMarks) * 100, 2) . '%)'; ?></td>
 					</tr>
-					<tr>
-						<td class="tbold">Level</td><td><?php echo "-"; ?></td>
-					</tr>
-
 				</table>
 
 				<div style="float:left;width:100%;text-align:right">
@@ -67,7 +63,8 @@
 							<th></th>
 							<th width="60%">Criteria</th>
 							<th>Choice</th>
-							<th>Score</th>
+							<th width="40px">Score</th>
+							<th>Percentage</th>
 							<th>Remarks</th>
 						</tr>
 						<?php $i = 0 ?>
@@ -77,10 +74,13 @@
 								<td><?php echo ($i + 1) ?></td>
 								<td><?php echo $row['criteria_name'] ?></td>
 								<td><?php echo $row['choice_name'] ?></td>
-								<td><?php echo $row['marks'] ?></td>
+								<td style="text-align:center"><?php echo $row['marks'] . ' / ' . $row['totalCriteriaMarks'] ?></td>
+								<td><?php echo round($row['marks'] / $row['totalCriteriaMarks'] * 100, 2) . '%' ?></td>
 								<td><?php echo $row['remarks'] ?></td>
 								<?php
-								array_push($scores, [ 'value' => ($row['marks'] / $fullMarks * 100)]);
+								$pieces = explode(" ", $row['criteria_name']);
+								$spliced = implode(" ", array_splice($pieces, 0, 5));
+								array_push($scores, ['label' => $spliced, 'value' => ($row['marks'] / $row['totalCriteriaMarks'] * 100)]);
 								$i++;
 								?>
 							</tr>
@@ -89,6 +89,7 @@
 						</table>
 					</div>
 					<div id="placeholder" style="height:<?php echo (40 * count($scores)) ?>px;margin-top:30px"></div>
+	                <h3 style="text-align:center">Percentage of journal classification for each criteria (score / total criteria marks)</h3>
 				</td>
 			</tr>
 		</tbody>
@@ -99,7 +100,7 @@
 	<input type="hidden" id="pfid" name="fid"/>
 
 	</form>
-	
+
 	<form id="downloadExcel" action="Excel/journal_detail_excel.php">
 	<input type="hidden" id="excelEID" name="evaluation_id"/>
 	<input type="hidden" id="eForm" name="f"/>
@@ -144,7 +145,7 @@
 	var ticks = []
     $.each(obj, function(i,row) {
         rawData.push([row.value, i]) // data in percentage
-		ticks.push([i, 'Criteria ' + (obj.length - i)]) // the left label (y label)
+		ticks.push([i, row.label]) // the left label (y label)
     })
 
 	// set data
@@ -167,16 +168,17 @@
         xaxis: {
             axisLabelFontSizePixels: 12,
             axisLabelPadding: 10,
-            max: 100
+            max: 109
         },
         yaxis: {
             axisLabelUseCanvas: true,
             axisLabelFontSizePixels: 12,
+			tickLength:0,
             axisLabelPadding: 3,
             ticks: ticks,
         },
         legend: {
-			show: true
+			show: false
         },
         grid: {
             hoverable: true,

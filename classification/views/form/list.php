@@ -3,7 +3,7 @@
       <tr>
         <td height="30">
           <a href="#">Home</a> &gt; List of Categories
-        </td>                                             
+        </td>
       </tr>
       <tr>
         <td height="30" background="images/tajukpanjang750.png">
@@ -31,8 +31,11 @@
                       <td><center><?php echo $row['counter'] ?></center></td>
 					 <td>
                         <center>
-                        <a href="classification_edit_form.php?id=<?php echo $row['id'] ?>">Edit</a> | 
-                        <a href="#">Delete</a>
+                        <a href="classification_edit_form.php?id=<?php echo $row['id'] ?>">Edit</a> |
+                        <a class="btn-delete" href="javascript:;">Delete</a>
+                        <form class="form-delete" action="" method="post">
+                            <input type="hidden" name="delete" value="<?php echo $row['id'] ?>">
+                        </form>
                         </center>
                       </td>
                     </tr>
@@ -41,9 +44,17 @@
                 </td>
               </tr>
             </table>
-            
+
           </div>
         </td>
       </tr>
    </tbody>
 </table>
+<script>
+$('.btn-delete').click(function() {
+    if (confirm('Are you sure want to delete this record?')) {
+        var form = $(this).siblings('.form-delete')
+        $(form).submit();
+    }
+})
+</script>
