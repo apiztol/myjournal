@@ -17,6 +17,16 @@ $APP_URL="http://localhost/myjurnal";
 
 //$APP_URL="http://192.168.90.190";
 
+
+// variables to keep number of journal have for each level
+$counts = [0, 0, 0, 0, 0];
+
+// to keep the threshold value of each level
+$classes = [90, 70, 30, 20, 10];
+
+// labels for each levels
+$levels = ['A1', 'A2', 'B1', 'B2', 'B5'];
+
 /*
 #Database properties
 $DB_HOST="192.168.90.118";
