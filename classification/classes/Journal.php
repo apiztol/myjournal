@@ -178,6 +178,13 @@ class Journal extends BaseClass
 
 	function convertListJournal($var) {
 
+		global $counts;
+		global $classes;
+		global $levels;
+
+		$data['counts'] = $counts;
+		$data['classes'] = $classes;
+		$data['levels'] = $levels;
 		// get parameters
 		$search = isset($_GET['s']) ? $_GET['s'] : '';
 		//$form = isset($_GET['f']) ? $_GET['f'] : '';

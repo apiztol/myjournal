@@ -81,15 +81,18 @@
                         </tr>
                         <?php $i = $offset ?>
                         <?php
-                        // variables to keep number of journal have for each level
-                        $counts = [0, 0, 0, 0, 0];
-
-                        // to keep the threshold value of each level
-                        $classes = [90, 70, 30, 20, 10];
-
-                        // labels for each levels
-                        $levels = ['A1', 'A2', 'B1', 'B2', 'B5'];
-
+                        // // variables to keep number of journal have for each level
+                        // $counts = [0, 0, 0, 0, 0];
+                        //
+                        // // to keep the threshold value of each level
+                        // $classes = [90, 70, 30, 20, 10];
+                        //
+                        // // labels for each levels
+                        // $levels = ['A1', 'A2', 'B1', 'B2', 'B5'];
+                        global $counts;
+                        global $classes;
+                        global $levels;
+                        
                         $curentLevel = '';
                         ?>
                         <?php foreach ($journals as $journal): ?>

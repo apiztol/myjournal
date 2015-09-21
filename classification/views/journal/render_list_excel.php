@@ -12,9 +12,10 @@ require_once 'CSV/Classes/PHPExcel.php';
 
 /** PHPExcel_Writer_Excel2007 */
 include 'CSV/Classes/PHPExcel/Writer/Excel5.php';
+include dirname(__FILE__).'/../../../config.php';
 
-foreach($forms as $form_): 
-endforeach; 
+foreach($forms as $form_):
+endforeach;
 
 // Create new PHPExcel object
 $objPHPExcel = new PHPExcel();
@@ -66,20 +67,20 @@ $objPHPExcel->getActiveSheet()->SetCellValue('G11', '%');
 
 $c = $offset;
 
-// variables to keep number of journal have for each level
-$counts = [0, 0, 0, 0, 0];
-
-// to keep the threshold value of each level
-$classes = [90, 70, 30, 20, 10];
-
-// labels for each levels
-$levels = ['A1', 'A2', 'B1', 'B2', 'B5'];
+// // variables to keep number of journal have for each level
+// $counts = [0, 0, 0, 0, 0];
+//
+// // to keep the threshold value of each level
+// $classes = [90, 70, 30, 20, 10];
+//
+// // labels for each levels
+// $levels = ['A1', 'A2', 'B1', 'B2', 'B5'];
 
 $curentLevel = '';
 $a = 0;
 
-foreach ($journals as $journal): 
-	
+foreach ($journals as $journal):
+
 	$c++;
 	$index++;
 	$percentage = round(($journal['totalMarks'] / $fullMarks) * 100, 2);
@@ -88,18 +89,18 @@ foreach ($journals as $journal):
                                 if ($percentage >= $classes[$k]) {
                                     $counts[$k]++;
                                     if ($curentLevel != $levels[$k]) {
-										
+
 										$objPHPExcel->setActiveSheetIndex(0)->mergeCells('B'.$i.':G'.$i);
 										$objPHPExcel->getActiveSheet()->SetCellValue('B'.$i,'Tahap ' . $levels[$k]);
-                                        
+
 										$curentLevel = $levels[$k];
                                     }
                                     break;
                                 }
                             }
-	
+
 	$i++;
-	
+
 	$objPHPExcel->getActiveSheet()->SetCellValue('B'.$i, $c);
 	$objPHPExcel->getActiveSheet()->SetCellValue('C'.$i, $journal['name']);
 	$objPHPExcel->getActiveSheet()->SetCellValue('D'.$i, $journal['compulsory']);
@@ -110,7 +111,7 @@ foreach ($journals as $journal):
 
 	//$objPHPExcel->getActiveSheet()->getStyle("C:G")->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
 
-endforeach; 
+endforeach;
 
 
 $objPHPExcel->getActiveSheet()->getStyle("B11:G11")->getFont()->setBold(true);
